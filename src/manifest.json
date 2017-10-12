@@ -1,0 +1,22 @@
+{
+    "name": "Tabcycle",
+    "description": "This extension allows chrome users to cycle through their tabs in a history format.",
+    "version": "1.0",
+    "manifest_version": 2,
+    "permissions": [
+        "tabs",
+        "activeTab"
+    ],
+    "browser_action": {
+        "default_icon": "icon.png",
+        "default_popup": "popup.html",
+        "default_title": "press option + `"
+    },
+    "commands": {
+        "_execute_browser_action": {
+            "suggested_key": {
+                "mac": "Alt+1"
+            }
+        }
+    }
+}

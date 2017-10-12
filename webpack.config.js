@@ -1,37 +1,72 @@
+var path = require('path')
+var webpack = require('webpack')
+
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+
+const PATHS = {
+    src: path.join(__dirname, 'src'),
+    entry: path.join(__dirname, 'src/popup.tsx'),
+    manifest: path.join(__dirname, 'src/manifest.json'),
+    img: path.join(__dirname, 'src/img'),
+    build: path.join(__dirname, 'dist')
+};
+
+
 module.exports = {
-    entry: "./src/index.tsx",
+    entry: {
+        popup: PATHS.entry
+        // vendor: [
+        //     'react',
+        //     'react-dom'
+        // ]
+    },
     output: {
         filename: "bundle.js",
-        path: __dirname + "/dist"
+        path: PATHS.build
     },
+    devServer: {
+        contentBase: PATHS.build,
+        historyApiFallback: true,
+        inline: true
+    }, 
+    watch: true,
 
     //Enable sourcemaps for debugging webpack's output.
     devtool: "source-map",
     resolve: {
         // Add '.ts' and '.tsx' as resolveable exts.
-        extensions: [".ts", ".tsx", ".js", ".json"]
+        extensions: [".ts", ".tsx", ".js", "json"]
     },
     module: {
         rules: [
-            //All files with a .ts or .tsx ext will be handled by awesome-typescript-loader
+            { test: /\.tsx?$/,  loader: "awesome-typescript-loader", include: PATHS.src},
+            { enforce: "pre", test: /\.js$/, loader: "source-map-loader", include: PATHS.src},
             {
-                test: /\.tsx?$/, 
-                loader: "awesome-typescript-loader" 
-            },
-            // All output '.js' files will have any sourcemaps re-processed by source-map-loader
-            {
-                enforce: "pre",
-                test: /\.js$/,
-                loader: "source-map-loader"
+                test: /\.scss$/,
+                use: [{
+                    loader: "style-loader" // creates style nodes from JS strings
+                }, {
+                    loader: "css-loader" // translates CSS into CommonJS
+                }, {
+                    loader: "sass-loader", // compiles Sass to CSS
+                    // options: {
+                    //     includePaths: [PATHS.src]
+                    // }
+                }]
             }
         ]
     },
-    // When importing a module whose path matches one of the following, just
-    // assume a corresponding global variable exists and use that instead.
-    // This is important because it allows us to avoid bundling all of our
-    // dependencies, which allows browsers to cache those libraries between builds.
-    externals: {
-        "react": "React",
-        "react-dom": "ReactDOM"
-    }
+    plugins: [
+        new HtmlWebpackPlugin({
+            inject: true,
+            chunks: ['popup'],
+            filename: 'popup.html',
+            template: path.join(__dirname, 'src/popup.html')
+        }),
+        new CopyWebpackPlugin([
+            { from: PATHS.manifest },
+            { context: PATHS.img, from: 'icon**' }
+        ])
+    ]
 }
