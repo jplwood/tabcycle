@@ -25,11 +25,6 @@ module.exports = {
         filename: "bundle.js",
         path: PATHS.build
     },
-    devServer: {
-        contentBase: PATHS.build,
-        historyApiFallback: true,
-        inline: true
-    }, 
     watch: true,
 
     //Enable sourcemaps for debugging webpack's output.
