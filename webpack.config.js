@@ -6,20 +6,17 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const PATHS = {
     src: path.join(__dirname, 'src'),
-    entry: path.join(__dirname, 'src/popup.tsx'),
+    entry: path.join(__dirname, 'src/Popup.tsx'),
     manifest: path.join(__dirname, 'src/manifest.json'),
     img: path.join(__dirname, 'src/img'),
-    build: path.join(__dirname, 'dist')
+    build: path.join(__dirname, 'dist'),
+    nm: path.join(__dirname, 'node_modules')
 };
 
 
-module.exports = {
+const config = {
     entry: {
-        popup: PATHS.entry
-        // vendor: [
-        //     'react',
-        //     'react-dom'
-        // ]
+        popup: ['babel-polyfill', PATHS.entry]
     },
     output: {
         filename: "bundle.js",
@@ -35,20 +32,26 @@ module.exports = {
     },
     module: {
         rules: [
-            { test: /\.tsx?$/,  loader: "awesome-typescript-loader", include: PATHS.src},
-            { enforce: "pre", test: /\.js$/, loader: "source-map-loader", include: PATHS.src},
+            { 
+                // ts -> ES6 -> babel -> ES5
+                test: /\.(ts|tsx)?$/,  
+                include: PATHS.src,
+                exclude: PATHS.nm,
+                loaders: ['babel-loader', 'awesome-typescript-loader']
+            },
+            { 
+                enforce: "pre", 
+                test: /\.js$/, 
+                loader: "source-map-loader", 
+                include: PATHS.src
+            },
             {
                 test: /\.scss$/,
-                use: [{
-                    loader: "style-loader" // creates style nodes from JS strings
-                }, {
-                    loader: "css-loader" // translates CSS into CommonJS
-                }, {
-                    loader: "sass-loader", // compiles Sass to CSS
-                    // options: {
-                    //     includePaths: [PATHS.src]
-                    // }
-                }]
+                use: [
+                    { loader: "style-loader" }, // creates style nodes from JS strings
+                    { loader: "css-loader" }, // translates CSS into CommonJS
+                    { loader: "sass-loader"}, // compiles Sass to CSS
+                ]
             }
         ]
     },
@@ -65,3 +68,5 @@ module.exports = {
         ])
     ]
 }
+
+module.exports = config;
