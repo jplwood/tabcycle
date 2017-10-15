@@ -1,8 +1,8 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import './popup.scss'; 
+import './main.scss'; 
 
-import { TabContainer } from './popup/TabContainer';
+import { TabContainer } from './components/TabContainer';
 
 
 ReactDOM.render(

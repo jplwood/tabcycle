@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { TabService } from "../services/TabService";
+import { TabManager } from "../utils/TabManager";
 import { TabList } from './TabList';
 
 export interface ContainerProps {}
@@ -9,7 +9,7 @@ export interface ContainerState {
 }
 
 export class TabContainer extends React.Component<ContainerProps, ContainerState> {
-    private tabService: TabService 
+    private TabManager: TabManager 
 
     constructor() {
         super();
@@ -17,8 +17,8 @@ export class TabContainer extends React.Component<ContainerProps, ContainerState
             tabs: []
         };
 
-        this.tabService = new TabService();
-        this.tabService.getTabs().then(this.handleTabsChanged);
+        this.TabManager = new TabManager();
+        this.TabManager.getTabs().then(this.handleTabsChanged);
     }
 
     handleTabsChanged = (tabs: Array<chrome.tabs.Tab>) => {

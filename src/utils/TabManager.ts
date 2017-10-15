@@ -1,4 +1,4 @@
-export class TabService {
+export class TabManager {
     public tabs: Array<chrome.tabs.Tab> = [];
 
     constructor(){

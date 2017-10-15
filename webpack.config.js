@@ -6,9 +6,9 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const PATHS = {
     src: path.join(__dirname, 'src'),
-    entry: path.join(__dirname, 'src/Popup.tsx'),
+    entry: path.join(__dirname, 'src/index.tsx'),
     manifest: path.join(__dirname, 'src/manifest.json'),
-    img: path.join(__dirname, 'src/img'),
+    img: path.join(__dirname, 'src/assets'),
     build: path.join(__dirname, 'dist'),
     nm: path.join(__dirname, 'node_modules')
 };
@@ -58,9 +58,8 @@ const config = {
     plugins: [
         new HtmlWebpackPlugin({
             inject: true,
-            chunks: ['popup'],
-            filename: 'popup.html',
-            template: path.join(__dirname, 'src/popup.html')
+            filename: 'index.html',
+            template: path.join(__dirname, 'src/index.html')
         }),
         new CopyWebpackPlugin([
             { from: PATHS.manifest },
