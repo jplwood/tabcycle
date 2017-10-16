@@ -1,6 +1,9 @@
+import {StorageManager} from './StorageManager';
+
 export class TabManager {
     public tabs: Array<chrome.tabs.Tab> = [];
-
+    private storageManager: StorageManager;
+    
     constructor(){
         this.getTabs().then((tabs) => {
             this.tabs = tabs;
@@ -16,6 +19,7 @@ export class TabManager {
             };
 
             chrome.tabs.query(queryInfo, (tabs) => {
+
                 resolve(tabs);
             });
         });

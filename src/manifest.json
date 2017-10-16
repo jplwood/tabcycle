@@ -5,7 +5,8 @@
     "manifest_version": 2,
     "permissions": [
         "tabs",
-        "activeTab"
+        "activeTab",
+        "storage"        
     ],
     "browser_action": {
         "default_icon": "icon.png",
