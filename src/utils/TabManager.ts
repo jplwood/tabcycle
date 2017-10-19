@@ -1,29 +1,22 @@
-import {StorageManager} from './StorageManager';
 
-export class TabManager {
-    public tabs: Array<chrome.tabs.Tab> = [];
-    private storageManager: StorageManager;
+export default class TabManager {
     
-    constructor(){
-        this.getTabs().then((tabs) => {
-            this.tabs = tabs;
-        });
+    constructor(){};
 
-        this.addListeners();
-    };
-
-    public getTabs() {
-        return new Promise<Array<chrome.tabs.Tab>>((resolve, reject) => {
+    public GetTabs() {
+        return new Promise<chrome.tabs.Tab[]>((resolve) => {
             const queryInfo = {
                 currentWindow: true
             };
 
             chrome.tabs.query(queryInfo, (tabs) => {
-
                 resolve(tabs);
             });
         });
+    }
 
+    public switchTab(tabId) {
+        chrome.tabs.update(tabId, {active: true});
     }
 
     private addListeners() {

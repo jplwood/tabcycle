@@ -5,9 +5,13 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const PATHS = {
-    src: path.join(__dirname, 'src'),
-    entry: path.join(__dirname, 'src/index.tsx'),
+    // Files
+    uiEntry: path.join(__dirname, 'src/ui.tsx'),
+    bgEntry: path.join(__dirname, 'src/background.ts'),
     manifest: path.join(__dirname, 'src/manifest.json'),
+
+    //Folders
+    src: path.join(__dirname, 'src'),
     img: path.join(__dirname, 'src/assets'),
     build: path.join(__dirname, 'dist'),
     nm: path.join(__dirname, 'node_modules')
@@ -16,10 +20,11 @@ const PATHS = {
 
 const config = {
     entry: {
-        popup: ['babel-polyfill', PATHS.entry]
+        ui: ['babel-polyfill', PATHS.uiEntry],
+        background: ['babel-polyfill', PATHS.bgEntry]
     },
     output: {
-        filename: "bundle.js",
+        filename: "[name].bundle.js",
         path: PATHS.build
     },
     watch: true,

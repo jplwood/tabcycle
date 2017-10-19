@@ -5,19 +5,18 @@
     "manifest_version": 2,
     "permissions": [
         "tabs",
-        "activeTab",
         "storage"        
     ],
-    "browser_action": {
-        "default_icon": "icon.png",
-        "default_popup": "index.html",
-        "default_title": "press option + `"
-    },
     "commands": {
-        "_execute_browser_action": {
+        "switcheroo": {
             "suggested_key": {
-                "mac": "Alt+1"
-            }
+                "mac": "Ctrl+W"
+            },
+            "description": "Switch to recent tabs"
+            
         }
-    }
+    },
+    "background": {
+        "scripts": ["background.js"]
+    },
 }
